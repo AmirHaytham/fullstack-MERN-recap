@@ -1,0 +1,25 @@
+### Open this file in VS Code with the "REST Client" extension
+### and click "Send Request" above each block.
+
+GET http://localhost:3005/users
+
+###
+GET http://localhost:3005/users/42
+
+###
+GET http://localhost:3005/search?name=menna&age=24
+
+###
+POST http://localhost:3005/users
+
+###
+POST http://localhost:3005/echo
+Content-Type: application/json
+
+{ "name": "Menna", "age": 24 }
+
+###
+PUT http://localhost:3005/users/42
+
+###
+DELETE http://localhost:3005/users/42
