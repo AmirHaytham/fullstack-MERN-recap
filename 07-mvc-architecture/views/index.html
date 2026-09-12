@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MVC demo</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 620px; margin: 40px auto; }
+    li { margin: 6px 0; }
+    button { cursor: pointer; }
+    input { padding: 4px 6px; }
+    pre { background: #f4f4f4; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <h2>VIEW</h2>
+  <p>
+    This page only <em>presents</em> the model's data. It knows how to read it,
+    but it does not know what the data means or how it is stored.
+  </p>
+
+  <ul id="list"></ul>
+
+  <input id="name" placeholder="name" />
+  <input id="age" placeholder="age" size="4" />
+  <button onclick="addUser()">Add user</button>
+
+  <h3>Raw response from GET /api/users</h3>
+  <pre id="raw"></pre>
+
+<script>
+  async function load() {
+    const res = await fetch('/api/users');
+    const users = await res.json();
+    document.getElementById('raw').textContent = JSON.stringify(users, null, 2);
+    document.getElementById('list').innerHTML = users
+      .map(function (u) {
+        return '<li>' + u.name + ' (' + (u.age === null ? '-' : u.age) + ') ' +
+               '<button onclick="removeUser(' + u.id + ')">delete</button></li>';
+      })
+      .join('');
+  }
+
+  async function addUser() {
+    const name = document.getElementById('name').value;
+    const age  = document.getElementById('age').value;
+    const res  = await fetch('/api/users', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: name, age: age })
+    });
+    if (!res.ok) { alert((await res.json()).error); return; }
+    document.getElementById('name').value = '';
+    document.getElementById('age').value  = '';
+    load();
+  }
+
+  async function removeUser(id) {
+    await fetch('/api/users/' + id, { method: 'DELETE' });
+    load();
+  }
+
+  load();
+</script>
+</body>
+</html>
