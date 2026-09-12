@@ -1,0 +1,5 @@
+node_modules/
+dist/
+.env
+*.log
+04-git-essentials/sandbox/
