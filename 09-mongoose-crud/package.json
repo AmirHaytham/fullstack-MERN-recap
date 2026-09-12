@@ -1,0 +1,13 @@
+{
+  "name": "sp1-09-mongoose-crud",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "validation": "node validation.js"
+  },
+  "dependencies": {
+    "mongoose": "^8.9.5"
+  }
+}
